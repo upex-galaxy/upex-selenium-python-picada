@@ -1,2 +1,4 @@
-pytest
+python-dotenv
 selenium
+pytest
+pytest-sugar

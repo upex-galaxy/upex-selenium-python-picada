@@ -31,3 +31,6 @@ class TestShoppingCart:
         products_in_cart = len(product_added_to_cart)
         assert products_in_cart == 1 #? Product should be added to Shopping Cart
         
+
+if __name__ == "__main__":
+    pytest.main()

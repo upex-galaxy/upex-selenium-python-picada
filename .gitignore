@@ -2,3 +2,9 @@ __pycache__
 .pytest_cache
 **/__pycache__
 **/.pytest_cache
+.env
+tests/integration/res
+tests/e2e/res
+tests/screenshots
+tests/videos
+tests/downloads
