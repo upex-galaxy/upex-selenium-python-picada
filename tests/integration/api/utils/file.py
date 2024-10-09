@@ -1,10 +1,10 @@
 import json
 import os
-from tests.root import get_root
+from tests.root import get_tests_root
 
 
 def save_json_to_file(json_data: object, dir_path: str, file_name: str):
-    tests_dir = get_root()
+    tests_dir = get_tests_root()
     # This is the path to the data directory
     data_dir = os.path.join(tests_dir, dir_path)
     # Create the data directory if it does not exist
