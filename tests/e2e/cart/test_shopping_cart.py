@@ -3,6 +3,8 @@ from selenium.webdriver import Chrome
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 
+# Este es el primer archivo de prueba en el Stream. Es el más básico y sencillo de todos.
+
 class TestShoppingCart:
     
     @pytest.fixture

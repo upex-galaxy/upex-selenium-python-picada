@@ -1,6 +1,5 @@
 import pytest
 from selenium.webdriver import Chrome
-from selenium.webdriver.common.by import By
 from tests.e2e.pages.pdf_upload_page import ChatPpfPage
 
 
