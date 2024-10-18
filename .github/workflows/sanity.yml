@@ -1,0 +1,51 @@
+name: Sanity Test
+run-name: ${{ github.actor }} triggered Sanity on ${{ github.event.inputs.environment }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: '🌐 Env to run Tests'
+        required: true
+        default: 'QA'
+        type: choice
+        options:
+        - 'QA'
+        - 'STAGE'
+        - 'PROD'
+      suite:
+        description: '🧪 Suite to run'
+        required: true
+        default: 'tests/e2e/cart/test_shopping_cart.py'
+        type: string
+
+env:
+  USER_ID: ${{ secrets.USER_ID }}
+  USERNAME: ${{ secrets.USERNAME }}
+  PASSWORD: ${{ secrets.PASSWORD }}
+  SWL_USERNAME: ${{ secrets.SWL_USERNAME }}
+  SWL_PASSWORD: ${{ secrets.SWL_PASSWORD }}
+  TEST_ENV: ${{ github.event.inputs.environment }}
+
+jobs:
+  Sanity:
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment }}
+
+    steps:
+    - name: 🏦 Clone Project
+      uses: actions/checkout@v4
+
+    - name: 🛰️ Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3'
+
+    - name: 🛍️ Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: 🧪 Run Snity Test
+      run: |
+        pytest -v ${{ github.event.inputs.suite }}
