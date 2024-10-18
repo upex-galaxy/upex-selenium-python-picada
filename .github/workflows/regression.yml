@@ -46,7 +46,7 @@ jobs:
         pytest -v tests/e2e/cart/test_shopping_cart.py
 
   Regression:
-    if: ${{ jobs.Smoke.outcome == 'success' }}
+    if: success() && github.event.inputs.environment != 'PROD'
     runs-on: ubuntu-latest
     environment: ${{ github.event.inputs.environment }}
 
