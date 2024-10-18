@@ -1,13 +1,12 @@
 import pytest
 import os
-from selenium.webdriver import Chrome
+from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.common.by import By
 from tests.root import get_tests_root
 
 class TestFileUpload:
     
-    def test_should_upload_file(self):
-        web = Chrome()
+    def test_should_upload_file(self, web: WebDriver):
         web.implicitly_wait(10)
         web.get('https://qaplayground.dev/apps/upload/')
         #* -----

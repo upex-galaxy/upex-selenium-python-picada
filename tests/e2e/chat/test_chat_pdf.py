@@ -1,12 +1,11 @@
 import pytest
-from selenium.webdriver import Chrome
+from selenium.webdriver.remote.webdriver import WebDriver
 from tests.e2e.pages.pdf_upload_page import ChatPpfPage
 
 
 class TestChatPDF:
     
-    def test_should_chat_with_pdf(self):
-        web = Chrome()
+    def test_should_chat_with_pdf(self, web: WebDriver):
         chat_pdf_page = ChatPpfPage(web)
         web.implicitly_wait(10)
         web.maximize_window()
