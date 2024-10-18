@@ -1,4 +1,6 @@
 import pytest
+import os
+from tests.root import BASE_URL, USERNAME, PASSWORD
 from selenium.webdriver import Chrome
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
@@ -11,9 +13,10 @@ class TestShoppingCart:
     def web(self):
         web = Chrome()
         web.implicitly_wait(10)
-        web.get('https://www.saucedemo.com/')
-        web.find_element(By.CSS_SELECTOR, '[data-test=username]').send_keys('standard_user')
-        web.find_element(By.CSS_SELECTOR, '[data-test=password]').send_keys('secret_sauce')
+        web.get(BASE_URL)
+        print(f"User: {USERNAME}")
+        web.find_element(By.CSS_SELECTOR, '[data-test=username]').send_keys(USERNAME)
+        web.find_element(By.CSS_SELECTOR, '[data-test=password]').send_keys(PASSWORD)
         web.find_element(By.CSS_SELECTOR, '[data-test=login-button]').click()
         inventory_page = web.find_element(By.CSS_SELECTOR, '.inventory_list')
         assert inventory_page.is_displayed() == True
