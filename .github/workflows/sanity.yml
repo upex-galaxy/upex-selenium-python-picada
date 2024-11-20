@@ -18,6 +18,16 @@ on:
         required: true
         default: 'tests/e2e/cart/test_shopping_cart.py'
         type: string
+      xray_tx:
+        description: '🔑 Xray Test Execution Key'
+        required: true
+        default: 'GX3-1526' #! No modificar, esto es solo un ejemplo.
+        type: string
+      xray_project:
+        description: '🔑 Xray Project Key'
+        required: true
+        default: 'GX3' #! No modificar, esto es solo un ejemplo.
+        type: string
 
 env:
   USER_ID: ${{ secrets.USER_ID }}
@@ -49,3 +59,30 @@ jobs:
     - name: 🧪 Run Snity Test
       run: |
         pytest -v ${{ github.event.inputs.suite }}
+
+    - name: ✅ Import Test Results to Xray
+      if: always() #? Corre este paso si la variable de entorno está definida
+      uses: mikepenz/xray-action@v3
+      with:
+        #OPCIONES PARA IMPORTAR LOS RESULTADOS DE PRUEBA A JIRA XRAY:
+        username: ${{ secrets.XRAY_CLIENT_ID}}
+        password: ${{ secrets.XRAY_CLIENT_SECRET}}
+        testFormat: 'junit' #! NO CAMBIAR
+        testPaths: 'reports/pytest-junit.xml' #! NO CAMBIAR
+        testExecKey: ${{ github.event.inputs.xray_tx }} #! NO CAMBIAR
+        projectKey: ${{ github.event.inputs.xray_project }} #! NO CAMBIAR
+        testEnvironments: ${{ github.event.inputs.environment }}
+
+  Ari-Slack-Notification:
+    needs: [ Sanity ] #? will always run after the SanityTest job
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+    - name: 🔔 Slack Notification
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        SLACK_USERNAME: Ari✨
+        SLACK_MESSAGE: '🧪(${{ github.repository }}): ${{ github.actor }} triggered SanityTest🚀'
+        SLACK_COLOR: ${{ needs.Sanity.result }}
+        SLACK_ICON: ${{ secrets.ARI_PROFILE }}
